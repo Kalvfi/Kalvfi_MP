@@ -57,7 +57,6 @@ export default function App() {
     <div className="p-6 max-w-2xl mx-auto font-sans">
       <h2 className="text-2xl font-bold mb-6">AI Worksheet Generator</h2>
 
-      {/* React 19 native form action accepting an async function */}
       <form action={handleGenerate} className="flex flex-col gap-4">
         <div className="flex gap-4">
           <input

@@ -7,6 +7,6 @@ namespace WorksheetGen.Api.Controllers
     public class HealthController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get() => Ok(new { status = "ok" });
+        public ActionResult Get() => Ok(new { status = "ok" });
     }
 }

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using WorksheetGen.Api.Data;
+using WorksheetGen.Api.Options;
 
 public partial class Program
 {
@@ -24,6 +25,12 @@ public partial class Program
         );
 
         builder.Services.AddScoped<ICurrentUser, DevCurrentUser>();
+
+        builder
+            .Services.AddOptions<GeminiOptions>()
+            .BindConfiguration(GeminiOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         var app = builder.Build();
 

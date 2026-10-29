@@ -3,4 +3,46 @@
 GET {{WorksheetGen.Api_HostAddress}}/api/health
 Accept: application/json
 
-###
+### Create a valid worksheet
+POST {{WorksheetGen.Api_HostAddress}}/api/worksheets
+Content-Type: application/json
+
+{
+  "title": "Fractions quiz",
+  "subject": "Math",
+  "gradeLevel": "6",
+  "isPublic": false,
+  "questions": [
+    {
+      "type": "MultipleChoice",
+      "text": "What is 1/2 + 1/4?",
+      "options": ["1/4", "2/6", "3/4", "1"],
+      "answer": "3/4",
+      "points": 2
+    },
+    {
+      "type": "ShortAnswer",
+      "text": "Simplify 4/8.",
+      "answer": "1/2",
+      "points": 1
+    }
+  ]
+}
+
+### List my worksheets
+GET {{WorksheetGen.Api_HostAddress}}/api/worksheets
+
+### Get one (paste an id from the POST response)
+GET {{WorksheetGen.Api_HostAddress}}/api/worksheets/00000000-0000-0000-0000-000000000001
+
+### Invalid: empty title (expect 400)
+POST {{WorksheetGen.Api_HostAddress}}/api/worksheets
+Content-Type: application/json
+
+{ "title": "", "questions": [] }
+
+### Invalid: unknown question type (expect 400)
+POST {{WorksheetGen.Api_HostAddress}}/api/worksheets
+Content-Type: application/json
+
+{ "title": "Bad", "questions": [ { "type": "Banana", "text": "?" } ] }

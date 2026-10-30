@@ -5,9 +5,9 @@ namespace WorksheetGen.Api.Dtos.Worksheets
     public record QuestionResponse(
         int Order,
         QuestionType Type,
-        string Text,
+        string Prompt,
         List<string> Options,
-        string? Answer,
+        string? CorrectAnswer,
         int Points
     );
 }

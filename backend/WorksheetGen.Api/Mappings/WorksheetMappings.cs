@@ -18,12 +18,41 @@ namespace WorksheetGen.Api.Mappings
                     .Select(q => new QuestionResponse(
                         q.Order,
                         q.Type,
-                        q.Text,
+                        q.Prompt,
                         q.Options,
-                        q.Answer,
+                        q.CorrectAnswer,
                         q.Points
                     ))
                     .ToList()
             );
+
+        public static Worksheet ToEntity(this CreateWorksheetRequest request, Guid ownerId)
+        {
+            var now = DateTime.UtcNow;
+            return new Worksheet
+            {
+                OwnerId = ownerId,
+                Title = request.Title.Trim(),
+                Subject = request.Subject?.Trim(),
+                GradeLevel = request.GradeLevel?.Trim(),
+                IsPublic = request.IsPublic,
+                CreatedAt = now,
+                UpdatedAt = now,
+                Questions = request
+                    .Questions.Select(
+                        (q, i) =>
+                            new Question
+                            {
+                                Order = i + 1,
+                                Type = q.Type,
+                                Prompt = q.Prompt.Trim(),
+                                Options = q.Options,
+                                CorrectAnswer = q.CorrectAnswer,
+                                Points = q.Points,
+                            }
+                    )
+                    .ToList(),
+            };
+        }
     }
 }

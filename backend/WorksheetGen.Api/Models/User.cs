@@ -3,7 +3,7 @@
     internal class User
     {
         public Guid Id { get; set; } = Guid.CreateVersion7();
-        public string Email { get; set; } = "";
+        public string Email { get; set; } = string.Empty;
         public string? DisplayName { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

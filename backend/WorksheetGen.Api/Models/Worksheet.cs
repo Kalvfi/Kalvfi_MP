@@ -3,7 +3,7 @@
     internal class Worksheet
     {
         public Guid Id { get; set; } = Guid.CreateVersion7();
-        public string Title { get; set; } = "";
+        public string Title { get; set; } = string.Empty;
         public string? Subject { get; set; }
         public string? GradeLevel { get; set; }
         public bool IsPublic { get; set; }
@@ -29,9 +29,9 @@
     {
         public int Order { get; set; }
         public QuestionType Type { get; set; }
-        public string Text { get; set; } = "";
+        public string Prompt { get; set; } = string.Empty;
         public List<string> Options { get; set; } = [];
-        public string? Answer { get; set; }
+        public string? CorrectAnswer { get; set; }
         public int Points { get; set; } = 1;
     }
 }

@@ -7,11 +7,8 @@ public class GeminiOptions
     public const string SectionName = "Gemini";
 
     [Required]
-    public string ApiKey { get; set; } = "";
+    public string ApiKey { get; set; } = string.Empty;
 
     [Required]
-    public string Model { get; set; } = "";
-
-    [Range(5, 300)]
-    public int TimeoutSeconds { get; set; } = 60;
+    public string Model { get; set; } = string.Empty;
 }

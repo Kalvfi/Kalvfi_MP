@@ -10,5 +10,8 @@ public class GeminiOptions
     public string ApiKey { get; set; } = string.Empty;
 
     [Required]
-    public string Model { get; set; } = string.Empty;
+    public string Model { get; set; } = "gemini-3.8-flash";
+
+    public List<string> FallbackModels { get; set; } =
+    ["gemini-3.6-flash", "gemini-3.5-flash-lite"];
 }

@@ -55,7 +55,7 @@ namespace WorksheetGen.Api.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("SourceDocuments");
+                    b.ToTable("SourceDocuments", (string)null);
                 });
 
             modelBuilder.Entity("WorksheetGen.Api.Models.User", b =>
@@ -81,7 +81,7 @@ namespace WorksheetGen.Api.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -128,7 +128,7 @@ namespace WorksheetGen.Api.Migrations
 
                     b.HasIndex("IsPublic", "CreatedAt");
 
-                    b.ToTable("Worksheets");
+                    b.ToTable("Worksheets", (string)null);
                 });
 
             modelBuilder.Entity("WorksheetGen.Api.Models.SourceDocument", b =>
@@ -174,7 +174,7 @@ namespace WorksheetGen.Api.Migrations
 
                             b1.HasKey("WorksheetId", "__synthesizedOrdinal");
 
-                            b1.ToTable("Worksheets");
+                            b1.ToTable("Worksheets", (string)null);
 
                             b1
                                 .ToJson("Questions")

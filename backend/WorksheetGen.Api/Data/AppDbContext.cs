@@ -46,7 +46,7 @@ namespace WorksheetGen.Api.Data
                     new User
                     {
                         Id = DevUser.Id,
-                        Email = "dev@example.com",
+                        Email = "dev@localhost",
                         DisplayName = "Dev Teacher",
                         CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     }

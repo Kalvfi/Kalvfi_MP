@@ -35,7 +35,12 @@ namespace WorksheetGen.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<WorksheetResponse>> GetById(Guid id, CancellationToken ct)
         {
-            var worksheet = await db.Worksheets.AsNoTracking().FirstOrDefaultAsync(ct);
+            var worksheet = await db
+                .Worksheets.AsNoTracking()
+                .FirstOrDefaultAsync(
+                    w => w.Id == id && (w.OwnerId == currentUser.Id || w.IsPublic),
+                    ct
+                );
 
             if (worksheet is null)
                 return NotFound();
@@ -44,7 +49,7 @@ namespace WorksheetGen.Api.Controllers
         }
 
         [HttpPost("generate")]
-        public async Task<ActionResult<AiGeneratedWorksheet>> Generate(
+        public async Task<ActionResult<WorksheetResponse>> Generate(
             [FromBody] GenerateWorksheetRequest request,
             [FromServices] IWorksheetGeneratorService generatorService,
             CancellationToken ct
@@ -65,11 +70,19 @@ namespace WorksheetGen.Api.Controllers
                 sourceText = sourceDoc.ExtractedText;
             }
 
-            AiGeneratedWorksheet aiResult = await generatorService.GenerateWorksheetAsync(
-                request,
-                sourceText,
-                ct
-            );
+            AiGeneratedWorksheet aiResult;
+            try
+            {
+                aiResult = await generatorService.GenerateWorksheetAsync(request, sourceText, ct);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Problem(
+                    detail: ex.Message,
+                    statusCode: StatusCodes.Status503ServiceUnavailable,
+                    title: "AI Service Temporarily Overloaded"
+                );
+            }
 
             var createRequest = new CreateWorksheetRequest(
                 Title: aiResult.Title,

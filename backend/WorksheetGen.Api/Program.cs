@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Google.GenAI;
+using Google.GenAI.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
@@ -38,14 +39,14 @@ public partial class Program
         {
             var geminiOptions = sp.GetRequiredService<IOptions<GeminiOptions>>().Value;
 
-            return new Client(apiKey: geminiOptions.ApiKey);
-        });
-
-        builder.Services.AddChatClient(sp =>
-        {
-            var client = sp.GetRequiredService<Client>();
-            var geminiOptions = sp.GetRequiredService<IOptions<GeminiOptions>>().Value;
-            return client.AsIChatClient(geminiOptions.Model);
+            return new Client(
+                apiKey: geminiOptions.ApiKey,
+                httpOptions: new HttpOptions
+                {
+                    Timeout = 25_000,
+                    RetryOptions = new HttpRetryOptions { Attempts = 2 },
+                }
+            );
         });
 
         builder.Services.AddScoped<ICurrentUser, DevCurrentUser>();
